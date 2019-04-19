@@ -1,6 +1,6 @@
 FROM docker.elastic.co/elasticsearch/elasticsearch:6.7.1
 
-RUN elasticsearch-plugin remove --purge x-pack \
+RUN elasticsearch-plugin list \
  && elasticsearch-plugin install --batch analysis-icu \
  && elasticsearch-plugin install --batch analysis-kuromoji
 
