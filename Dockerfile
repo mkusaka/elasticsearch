@@ -1,4 +1,4 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch:6.7.1
+FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.7.1
 
 RUN elasticsearch-plugin list \
  && elasticsearch-plugin install --batch analysis-icu \
