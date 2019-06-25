@@ -4,7 +4,7 @@ RUN elasticsearch-plugin list \
  && elasticsearch-plugin install --batch analysis-icu \
  && elasticsearch-plugin install --batch analysis-kuromoji
 
-ENV ES_JAVA_OPTS="-Xms256m -Xmx256m" \
+ENV ES_JAVA_OPTS="-Xms2g -Xmx2g" \
     bootstrap.memory_lock="true" \
     cluster.name="docker-cluster" \
     discovery.type="single-node" \
