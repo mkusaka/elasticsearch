@@ -1,10 +1,11 @@
-FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.3
+# See https://www.docker.elastic.co/
+FROM docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.6
 
 RUN elasticsearch-plugin list \
  && elasticsearch-plugin install --batch analysis-icu \
  && elasticsearch-plugin install --batch analysis-kuromoji
 
-ENV ES_JAVA_OPTS="-Xms2g -Xmx2g" \
+ENV ES_JAVA_OPTS="-Xms512m -Xmx512m" \
     bootstrap.memory_lock="true" \
     cluster.name="docker-cluster" \
     discovery.type="single-node" \

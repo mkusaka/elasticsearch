@@ -5,11 +5,13 @@ jobs:
       - image: docker:stable-git
         environment:
           - REPO_NAME=miyucy/elasticsearch
+          - DOCKER_BUILDKIT=1
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 18.09.3
       - run: |
-          docker build -t "${REPO_NAME}:${CIRCLE_SHA1}" .
+          docker build --progress plain -t "${REPO_NAME}:${CIRCLE_SHA1}" .
       - run:
           name: healthcheck
           command: |
