@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          docker build --progress plain -t "${{ github.repository }}:${GITHUB_SHA}" .
+          docker build --progress plain -t "ghcr.io/${{ github.repository }}:${GITHUB_SHA}" .
       - name: healthcheck
         run: |
           function healthcheck {
