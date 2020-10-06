@@ -34,4 +34,4 @@ jobs:
           healthcheck $(docker run --detach --init --publish 9200:9200 "${{ github.repository }}:${GITHUB_SHA}")
       - run: |
           docker login -u "${{ github.actor }}" -p "${{ secrets.CONTAINER_REGISTRY_TOKEN }}" ghcr.io
-          docker push " ghcr.io/${{ github.repository }}:${GITHUB_SHA}"
+          docker push "ghcr.io/${{ github.repository }}:${GITHUB_SHA}"
