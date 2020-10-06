@@ -1,0 +1,37 @@
+name: Publish to GitHub Container Registry
+# on:
+#   push:
+#     branches:
+#       - master
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          docker build --progress plain -t "ghcr.io/${{ github.repository }}:${GITHUB_SHA}" .
+      - name: healthcheck
+        run: |
+          function healthcheck {
+            local container_id=$1
+            local retries=5
+            local count=0
+            while [ ${count} -lt ${retries} ]
+            do
+              count=$((count + 1))
+              if [ $(docker inspect -f '{{ .State.Health.Status }}' ${container_id}) == "healthy" ];
+              then
+                exit 0
+              else
+                sleep 10
+              fi
+            done
+          }
+          healthcheck $(docker run --detach --init --publish 9200:9200 " ghcr.io/${{ github.repository }}:${GITHUB_SHA}")
+      - run: |
+          docker login -u "${{ github.actor }}" -p "${{ secrets.CONTAINER_REGISTRY_TOKEN }}" ghcr.io
+          docker push "ghcr.io/${{ github.repository }}:${GITHUB_SHA}"
